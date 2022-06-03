@@ -1,6 +1,7 @@
   #!/usr/bin/python3 -u
 from sh import bluetoothctl
 import os
+import subprocess
 
 import socket
 class Hub :
@@ -13,14 +14,18 @@ class Hub :
 
 
                 for device in devices:
-                    if device.split()[1] not in os.system('hcitool con'):
+                    val = device.split()[1]
+                    if val not in subprocess.run(['hcitool',' con'], stdout=subprocess.PIPE):
                         print(devices)
                         print(device)
+                        print(val)
+
                         self.devicelist = devices
                         continue
                     print('is there ? : \n')
                     print(devices)
                     print(device)
+                    print(val)
                 
         except Exception as e:
             print(f'Something went wrong: {e}')
