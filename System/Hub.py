@@ -13,7 +13,7 @@ class Hub :
 
 
                 for device in devices:
-                    if device[1] not in os.system('hcitool -con'):
+                    if device.split()[1] not in os.system('hcitool con'):
                         print(devices)
                         print(device)
                         self.devicelist = devices
