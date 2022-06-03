@@ -14,8 +14,8 @@ class Hub :
 
 
                 for device in devices:
-                    val = device.split()[1]
-                    if val not in subprocess.run(['hcitool',' con'], stdout=subprocess.PIPE):
+                    val = device.split()[1] 
+                    if val not in subprocess.run(['hcitool con'], stdout=subprocess.PIPE):
                         print(devices)
                         print(device)
                         print(val)
