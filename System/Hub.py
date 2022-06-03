@@ -6,7 +6,7 @@ class Hub :
     def updater(self):
         try:
             while True:
-                devices= bluetoothctl("power","on")
+                devices= bluetoothctl("paired-devices")
                 if devices:
                     print(devices)
                     self.devicelist = devices
