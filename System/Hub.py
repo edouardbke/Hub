@@ -3,7 +3,7 @@ from sh import bluetoothctl
 import socket
 class Hub :
     
-    def listenrequests(self):
+    def updater(self):
         try:
             print('Listening for connection...')
             client, address = s.accept()
