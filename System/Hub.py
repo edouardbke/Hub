@@ -1,4 +1,5 @@
   #!/usr/bin/python3 -u
+from locale import delocalize
 from sh import bluetoothctl
 import os
 import subprocess
@@ -15,7 +16,8 @@ class Hub :
 
                 for device in devices:
                     val = device.split()[1] 
-                    if val not in subprocess.run(['hcitool','con']).split("\n"):
+                    devlist = subprocess.check_output(['hcitool','con'])
+                    if val not in devlist.split("\n"):
                         print(devices)
                         print(device)
                         print(val)
