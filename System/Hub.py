@@ -1,6 +1,6 @@
   #!/usr/bin/python3 -u
 from sh import bluetoothctl
-from socket import socket
+import socket
 class Hub :
     
     def listenrequests(self):
