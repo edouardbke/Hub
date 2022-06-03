@@ -5,10 +5,6 @@ class Hub :
     
     def updater(self):
         try:
-            print('Listening for connection...')
-            client, address = s.accept()
-            print(f'Connected to {address}')
-
             while True:
                 devices= bluetoothctl("power","on")
                 if devices:
