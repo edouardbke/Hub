@@ -3,6 +3,7 @@ from locale import delocalize
 from sh import bluetoothctl
 import os
 import subprocess
+import re
 
 import socket
 class Hub :
@@ -11,23 +12,25 @@ class Hub :
         try:
             while True:
                 
-                devices= bluetoothctl("paired-devices").split('\n')
+                devices= bluetoothctl("paired-devices").split("\n")
+                devices = [device.split()[1] for device in  devices]
+                toberemoved =  [device.split()[1] for device in  devices]
+                out = subprocess.check_output(["hcitool", "con"])
+                out = out.split("\n")
+                mac_addr_re = re.compile("^.*([0-9,:,A-F]{17}).*$")
 
-
-                for device in devices:
-                    val = device.split()[1] 
-                    devlist = subprocess.check_output(['hcitool','con'])
-                    if val not in devlist.split("\n"):
-                        print(devices)
-                        print(device)
-                        print(val)
-
-                        self.devicelist = devices
-                        continue
-                    print('is there ? : \n')
+                for line in out:
+                    mac_addr = mac_addr_re.match(line)
+                    if mac_addr != None:
+                        if mac_addr in toberemoved:
+                            toberemoved.remove(mac_addr)
+                       
+                    
                     print(devices)
-                    print(device)
-                    print(val)
+                    print(toberemoved)
+                    # self.devicelist = devices
+                    continue
+                    
                 
         except Exception as e:
             print(f'Something went wrong: {e}')
