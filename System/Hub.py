@@ -15,7 +15,12 @@ class Hub :
                 devices= bluetoothctl("paired-devices").split("\n")
                 devices = [device.split() for device in  devices]
                 devices  = [device for device in  devices]
-                toberemoved =  [device for device in  devices]
+                toberemoved = []
+                for dev in devices:
+                    val = dev[1]
+                    toberemoved.append(val)
+                
+                devices = toberemoved.copy()
                 out = subprocess.check_output(["hcitool", "con"])
                 out = out.split("\n")
                 mac_addr_re = re.compile("^.*([0-9,:,A-F]{17}).*$")
