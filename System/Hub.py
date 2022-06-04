@@ -31,10 +31,9 @@ class Hub :
                         if len(line.split()) > 2:
                             addr = line.split()[2]
                             val = addr in toberemoved
-                            if val in toberemoved:
+                            if addr in toberemoved:
                                 toberemoved.remove(addr)
-                       
-                    
+
                     print(devices)
                     print(toberemoved)
                     # self.devicelist = devices
