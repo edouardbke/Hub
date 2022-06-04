@@ -1,4 +1,5 @@
   #!/usr/bin/python3 -u
+import time
 import pexpect
 from sh import bluetoothctl
 import os
@@ -20,9 +21,10 @@ class Hub :
         except Exception as e:
             print(f'Something went wrong: {e}')
     
-    def get_output(self, command):
+    def get_output(self, command,pause = 0):
         self.child = pexpect.spawn("bluetoothctl", echo = False)
         self.child.send(command + "\n")
+        time.sleep(pause)
         start_failed = self.child.expect(["bluetooth", pexpect.EOF])
         if start_failed:
             raise BluetoothctlError("Bluetoothctl failed after running " + command)
@@ -54,7 +56,7 @@ class Hub :
                     continue
             
             for dev in toberemoved:
-                confirm = self.get_output("remove " + dev)
+                confirm = self.get_output("remove " + dev, 3)
                 print(confirm)
     
 
