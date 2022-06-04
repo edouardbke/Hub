@@ -1,10 +1,14 @@
   #!/usr/bin/python3 -u
+import pexpect
 from sh import bluetoothctl
 import os
 import subprocess
 import re
 
 import socket
+class BluetoothctlError(Exception):
+    """This exception is raised, when bluetoothctl fails to start."""
+    pass
 class Hub :
     
     def updater(self):
@@ -15,7 +19,16 @@ class Hub :
                 
         except Exception as e:
             print(f'Something went wrong: {e}')
-            
+    
+    def get_output(self, command):
+        self.child = pexpect.spawn("bluetoothctl", echo = False)
+        self.child.send(command + "\n")
+        start_failed = self.child.expect(["bluetooth", pexpect.EOF])
+        if start_failed:
+            raise BluetoothctlError("Bluetoothctl failed after running " + command)
+
+        return self.child.before.split("\r\n")
+
     def removenotconnecteddevices(self):
         try:
             devices= bluetoothctl("paired-devices").split("\n")
@@ -39,12 +52,11 @@ class Hub :
                         toberemoved.remove(addr)
                 else :
                     continue
-                # print(devices)
-                # print(toberemoved)
+            
             for dev in toberemoved:
-                confirm = bluetoothctl(f"remove {dev}").split("\n")
+                confirm = self.get_output("remove " + dev)
                 print(confirm)
-            # self.devicelist = devices
+    
 
             print(devices)
             print(toberemoved)
