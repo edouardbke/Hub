@@ -1,5 +1,7 @@
   #!/usr/bin/python3 -u
 from locale import delocalize
+
+from joblib import PrintTime
 from sh import bluetoothctl
 import os
 import subprocess
@@ -44,6 +46,10 @@ class Hub :
                 for dev in toberemoved:
                     subprocess.check_output(["remove", dev]).decode("utf-8")
                 # self.devicelist = devices
+
+                print(devices)
+                print(toberemoved)
+                print('-----------------------------------')
                 continue
         except Exception as e:
             print(f'Something went wrong: {e}')
