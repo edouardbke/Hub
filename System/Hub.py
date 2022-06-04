@@ -14,12 +14,11 @@ class Hub :
                 
                 devices= bluetoothctl("paired-devices").split("\n")
                 devices = [device.split() for device in  devices]
-                devices  = [device for device in  devices]
                 toberemoved = []
                 for dev in devices:
-                    print (dev)
-                    val = dev[1]
-                    toberemoved.append(val)
+                    if len(dev) > 1:
+                        val = dev[1]
+                        toberemoved.append(val)
                 
                 devices = toberemoved.copy()
                 out = subprocess.check_output(["hcitool", "con"])
