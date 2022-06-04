@@ -11,38 +11,42 @@ class Hub :
     def updater(self):
         try:
             while True:
-                
-                devices= bluetoothctl("paired-devices").split("\n")
-                devices = [device.split() for device in  devices]
-                toberemoved = []
-                for dev in devices:
-                    if len(dev) > 1:
-                        val = dev[1]
-                        toberemoved.append(val)
-                
-                devices = toberemoved.copy()
-                out = subprocess.check_output(["hcitool", "con"]).decode("utf-8")
-                out = out.split('\n')
-                mac_addr_re = re.compile("^.*([0-9,:,A-F]{17}).*$")
-
-                for line in out:
-                    mac_addr = mac_addr_re.match(line)
-                    if mac_addr != None:
-                        if len(line.split()) > 2:
-                            addr = line.split()[2]
-                            val = addr in toberemoved
-                            if addr in toberemoved:
-                                toberemoved.remove(addr)
-
-                    print(devices)
-                    print(toberemoved)
-                    # self.devicelist = devices
-                    continue
+                self.removenotconnecteddevices()
                     
                 
         except Exception as e:
             print(f'Something went wrong: {e}')
             
+    def removenotconnecteddevices(self):
+        try:
+            devices= bluetoothctl("paired-devices").split("\n")
+            devices = [device.split() for device in  devices]
+            toberemoved = []
+            for dev in devices:
+                if len(dev) > 1:
+                    val = dev[1]
+                    toberemoved.append(val)
+            
+            devices = toberemoved.copy()
+            out = subprocess.check_output(["hcitool", "con"]).decode("utf-8")
+            out = out.split('\n')
+            mac_addr_re = re.compile("^.*([0-9,:,A-F]{17}).*$")
+
+            for line in out:
+                mac_addr = mac_addr_re.match(line)
+                if mac_addr != None and len(line.split()) > 2:
+                    addr = line.split()[2]
+                    if addr in toberemoved:
+                        toberemoved.remove(addr)
+
+                print(devices)
+                print(toberemoved)
+                for dev in toberemoved:
+                    subprocess.check_output(["remove", dev]).decode("utf-8")
+                # self.devicelist = devices
+                continue
+        except Exception as e:
+            print(f'Something went wrong: {e}')
 
     def init(self):
             self.name = socket.gethostname()
