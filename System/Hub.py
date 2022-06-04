@@ -17,6 +17,7 @@ class Hub :
                 devices  = [device for device in  devices]
                 toberemoved = []
                 for dev in devices:
+                    print (dev)
                     val = dev[1]
                     toberemoved.append(val)
                 
