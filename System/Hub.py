@@ -37,7 +37,8 @@ class Hub :
                     addr = line.split()[2]
                     if addr in toberemoved:
                         toberemoved.remove(addr)
-
+                else :
+                    continue
                 print(devices)
                 print(toberemoved)
                 for dev in toberemoved:
@@ -48,7 +49,7 @@ class Hub :
                 print(devices)
                 print(toberemoved)
                 print('-----------------------------------')
-                continue
+                
         except Exception as e:
             print(f'Something went wrong: {e}')
 
