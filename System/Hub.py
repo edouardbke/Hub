@@ -1,7 +1,4 @@
   #!/usr/bin/python3 -u
-from locale import delocalize
-
-from joblib import PrintTime
 from sh import bluetoothctl
 import os
 import subprocess
