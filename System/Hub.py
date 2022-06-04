@@ -28,8 +28,10 @@ class Hub :
                 for line in out:
                     mac_addr = mac_addr_re.match(line)
                     if mac_addr != None:
-                        if line.split()[1] in toberemoved:
-                            toberemoved.remove(mac_addr)
+                        addr = line.split()[1]
+                        val = addr in toberemoved
+                        if 0 in toberemoved:
+                            toberemoved.remove(addr)
                        
                     
                     print(devices)
