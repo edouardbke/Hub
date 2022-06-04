@@ -56,13 +56,15 @@ class Hub :
                     continue
             
             for dev in toberemoved:
-                confirm = self.get_output("remove " + dev, 3)
-                print(confirm)
-    
-
-            print(devices)
-            print(toberemoved)
-            print('-----------------------------------')
+                try:
+                    out = self.get_output("remove " + dev, 3)
+                except BluetoothctlError as e:
+                    print(e)
+                    return None
+                else:
+                    res = self.child.expect(["not available", "Device has been removed", pexpect.EOF])
+                    success = True if res == 1 else False
+                    return success
                 
         except Exception as e:
             print(f'Something went wrong: {e}')
