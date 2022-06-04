@@ -39,16 +39,16 @@ class Hub :
                         toberemoved.remove(addr)
                 else :
                     continue
-                print(devices)
-                print(toberemoved)
-                for dev in toberemoved:
-                    confirm = bluetoothctl(f"remove {dev}").split("\n")
-                    print(confirm)
-                # self.devicelist = devices
+                # print(devices)
+                # print(toberemoved)
+            for dev in toberemoved:
+                confirm = bluetoothctl(f"remove {dev}").split("\n")
+                print(confirm)
+            # self.devicelist = devices
 
-                print(devices)
-                print(toberemoved)
-                print('-----------------------------------')
+            print(devices)
+            print(toberemoved)
+            print('-----------------------------------')
                 
         except Exception as e:
             print(f'Something went wrong: {e}')
