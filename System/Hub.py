@@ -22,7 +22,7 @@ class Hub :
                 
                 devices = toberemoved.copy()
                 out = subprocess.check_output(["hcitool", "con"])
-                out = out.split("\n")
+                out = out.split(b'\n')
                 mac_addr_re = re.compile("^.*([0-9,:,A-F]{17}).*$")
 
                 for line in out:
