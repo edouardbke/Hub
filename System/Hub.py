@@ -25,7 +25,7 @@ class Hub :
         self.child = pexpect.spawn("bluetoothctl", echo = False)
         self.child.send(command + "\n")
         # self.child.expect(["bluetooth", pexpect.EOF])
-        return self.child.before.split("\r\n")
+        # return self.child.before.split("\r\n")
 
     def removenotconnecteddevices(self):
         try:
@@ -53,7 +53,7 @@ class Hub :
             
             for dev in toberemoved:
                 try:
-                    out = self.get_output("remove " + dev, 3)
+                    self.get_output("remove " + dev, 3)
                 except BluetoothctlError as e:
                     print(e)
                     return None
