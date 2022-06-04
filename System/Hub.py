@@ -25,10 +25,7 @@ class Hub :
         self.child = pexpect.spawn("bluetoothctl", echo = False)
         self.child.send(command + "\n")
         time.sleep(pause)
-        start_failed = self.child.expect(["bluetooth", pexpect.EOF])
-        if start_failed:
-            raise BluetoothctlError("Bluetoothctl failed after running " + command)
-
+        self.child.expect(["bluetooth", pexpect.EOF])
         return self.child.before.split("\r\n")
 
     def removenotconnecteddevices(self):
