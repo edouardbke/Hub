@@ -41,7 +41,8 @@ class Hub :
                 print(devices)
                 print(toberemoved)
                 for dev in toberemoved:
-                    subprocess.check_output(["remove", dev]).decode("utf-8")
+                    confirm = bluetoothctl(f"remove {dev}").split("\n")
+                    print(confirm)
                 # self.devicelist = devices
 
                 print(devices)
